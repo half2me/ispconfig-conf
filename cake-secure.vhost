@@ -1,0 +1,37 @@
+# use webroot as docroot, try files, folders, then fallback to CakePHP routing
+location / {
+  root {DOCROOT}webroot/;
+  try_files $uri $uri/ /index.php?$args;
+  index  index.php;
+}
+# fix ISPConfig favicon
+location = /favicon.ico {
+  root {DOCROOT}webroot/;
+  log_not_found off;
+  access_log off;
+}
+# fix ISPConfig robots.txt
+location = /robots.txt {
+  root {DOCROOT}webroot/;
+  log_not_found off;
+  access_log off;
+}
+# Block access to these files
+location ~ /(\.ht|\.user.ini|\.git|\.hg|\.bzr|\.svn) {
+  deny  all;
+}
+# Don't allow .php files to run, redirect to CakePHP router instead
+location ~ \.php$ {
+  root {DOCROOT}webroot/;
+  try_files /index.php?$args =404;
+}
+# Rule for CakePHP router
+location = /index.php {
+  root {DOCROOT}webroot/;
+  try_files $uri =404;
+  include /etc/nginx/fastcgi_params;
+  {FASTCGIPASS}
+  fastcgi_index index.php;
+  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+  fastcgi_intercept_errors on;
+}
