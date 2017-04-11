@@ -16,12 +16,3 @@ location = /robots.txt {
 location ~ /(\.ht|\.user.ini|\.git|\.hg|\.bzr|\.svn) {
   deny  all;
 }
-location ~ \.php$ {
-  root {DOCROOT}webroot/;
-  try_files $uri =404;
-  include /etc/nginx/fastcgi_params;
-  {FASTCGIPASS}
-  fastcgi_index index.php;
-  fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-  fastcgi_intercept_errors on;
-}
