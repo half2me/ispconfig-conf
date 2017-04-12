@@ -1,0 +1,18 @@
+location / {
+  root {DOCROOT}public/;
+  try_files $uri $uri/ /index.php?$args;
+  index  index.php;
+}
+location = /favicon.ico {
+  root {DOCROOT}public/;
+  log_not_found off;
+  access_log off;
+}
+location = /robots.txt {
+  root {DOCROOT}public/;
+  log_not_found off;
+  access_log off;
+}
+location ~ /(\.ht|\.user.ini|\.git|\.hg|\.bzr|\.svn) {
+  deny  all;
+}
