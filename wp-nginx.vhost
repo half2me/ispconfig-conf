@@ -17,6 +17,10 @@ location ~ /\. {
 # Pass uploaded files to wp-includes/ms-files.php.
 rewrite /public/files/$ /public/index.php last;
 
+if ($uri !~ wp-content/plugins) {
+    rewrite /public/files/(.+)$ /public/wp/wp-includes/ms-files.php?file=$1 last;
+}
+
 location ~ \.php$ {
     root {DOCROOT}public/;
     # Try the files specified in order. In our case, try the requested URI and if
