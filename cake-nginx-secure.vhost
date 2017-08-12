@@ -35,3 +35,9 @@ location = /index.php {
   fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
   fastcgi_intercept_errors on;
 }
+
+location ~ /.well-known {
+  allow all;
+  root {DOCROOT};
+  try_files $uri;
+}
